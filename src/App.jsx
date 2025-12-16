@@ -1,18 +1,27 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 import Navbar from './components/Navbar';
-import HeroSection from './sections/HeroSection';
-import FeatureSection from './sections/FeatureSection';
-import ReviewSection from './sections/ReviewSection';
-import FooterSection from './sections/FooterSection';
+import AuthModal from './components/AuthModal';
+import HomePage from './pages/HomePage';
+import BookingPage from './pages/BookingPage';
 
 function App() {
   return (
-    <div className="min-h-screen bg-stone-100">
-      <Navbar />
-      <HeroSection />
-      <FeatureSection />
-      <ReviewSection />
-      <FooterSection />
-    </div>
+    <BrowserRouter>
+      <AuthProvider>
+        <CartProvider>
+          <div className="min-h-screen bg-stone-100">
+            <Navbar />
+            <AuthModal />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/booking" element={<BookingPage />} />
+            </Routes>
+          </div>
+        </CartProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

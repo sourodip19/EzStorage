@@ -1,6 +1,9 @@
 import { Briefcase, Package2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   return (
     <section id="home" className="relative min-h-screen flex items-center pt-20">
       <div className="absolute right-0 top-0 w-2/5 h-full bg-emerald-800 rounded-bl-[200px]"></div>
@@ -12,7 +15,10 @@ const HeroSection = () => {
               <span className="text-stone-800 block mb-2">Welcome To</span>
               <span className="text-stone-900 font-bold">EZStorage</span>
             </h1>
-            <button className="bg-emerald-700 text-stone-50 px-8 py-4 rounded-full text-lg font-semibold hover:bg-emerald-600 transition-colors shadow-lg">
+            <button 
+              onClick={() => navigate('/booking')}
+              className="bg-emerald-700 text-stone-50 px-8 py-4 rounded-full text-lg font-semibold hover:bg-emerald-600 transition-colors shadow-lg"
+            >
               Book Now
             </button>
           </div>
