@@ -18,14 +18,14 @@ export const products = [
     name: 'Cardboard Box',
     description: 'Sturdy cardboard boxes in various sizes. Great for books, documents, and household items.',
     price: 5,
-    image: 'https://images.unsplash.com/photo-1586075574698-5c44efb5ab67?w=400&h=300&fit=crop'
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop'
   },
   {
     id: 'plastic-box',
     name: 'Plastic Box',
     description: 'Waterproof plastic containers with secure lids. Best for long-term storage needs.',
     price: 12,
-    image: 'https://images.unsplash.com/photo-1530981646415-8e9e8b2ad93f?w=400&h=300&fit=crop'
+    image: 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=400&h=300&fit=crop'
   },
   {
     id: 'leather-bag',
