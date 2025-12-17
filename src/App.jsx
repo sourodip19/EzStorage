@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
 import HomePage from './pages/HomePage';
 import BookingPage from './pages/BookingPage';
+import PaymentPage from './pages/PaymentPage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/booking" element={<BookingPage />} />
+              <Route path="/payment" element={<PaymentPage />} />
             </Routes>
           </div>
         </CartProvider>

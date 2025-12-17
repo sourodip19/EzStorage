@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { X, Eye, EyeOff } from 'lucide-react';
+import { X, Eye, EyeOff, Loader } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const AuthModal = () => {
-  const { isAuthModalOpen, closeAuthModal, login } = useAuth();
+  const { isAuthModalOpen, closeAuthModal, signUp, signIn } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,14 +16,23 @@ const AuthModal = () => {
 
   if (!isAuthModalOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login({
-      name: formData.name || formData.email.split('@')[0],
-      email: formData.email,
-      profilePhoto: null
-    });
-    setFormData({ name: '', email: '', password: '' });
+    setLoading(true);
+    setError(null);
+
+    try {
+      if (isLogin) {
+        await signIn(formData.email, formData.password);
+      } else {
+        await signUp(formData.email, formData.password, formData.name);
+      }
+      setFormData({ name: '', email: '', password: '' });
+    } catch (err) {
+      setError(err.message || 'An error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -92,6 +103,7 @@ const AuthModal = () => {
                 className="w-full px-4 py-3 rounded-lg border border-stone-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all pr-12"
                 placeholder="Enter your password"
                 required
+                minLength={6}
               />
               <button
                 type="button"
@@ -103,11 +115,25 @@ const AuthModal = () => {
             </div>
           </div>
 
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-700 text-sm">
+              {error}
+            </div>
+          )}
+
           <button
             type="submit"
-            className="w-full bg-emerald-700 text-white py-3 rounded-lg font-semibold hover:bg-emerald-600 transition-colors"
+            disabled={loading}
+            className="w-full bg-emerald-700 text-white py-3 rounded-lg font-semibold hover:bg-emerald-600 transition-colors disabled:bg-stone-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
           >
-            {isLogin ? 'Sign In' : 'Sign Up'}
+            {loading ? (
+              <>
+                <Loader className="w-5 h-5 animate-spin" />
+                <span>Processing...</span>
+              </>
+            ) : (
+              <span>{isLogin ? 'Sign In' : 'Sign Up'}</span>
+            )}
           </button>
         </form>
 

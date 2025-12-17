@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import { getTodayDate, getMinEndDate } from '../utils/dateCalculations';
 
 const CartContext = createContext(null);
 
@@ -12,6 +13,9 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState({});
+  const [startDate, setStartDate] = useState(getTodayDate());
+  const [endDate, setEndDate] = useState(getMinEndDate(getTodayDate()));
+  const [paymentOption, setPaymentOption] = useState('full');
 
   const addToCart = (productId) => {
     setCartItems(prev => ({
@@ -41,16 +45,41 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = () => {
     setCartItems({});
+    setStartDate(getTodayDate());
+    setEndDate(getMinEndDate(getTodayDate()));
+    setPaymentOption('full');
+  };
+
+  const updateStartDate = (date) => {
+    setStartDate(date);
+    const minEnd = getMinEndDate(date);
+    if (endDate < minEnd) {
+      setEndDate(minEnd);
+    }
+  };
+
+  const updateEndDate = (date) => {
+    setEndDate(date);
+  };
+
+  const updatePaymentOption = (option) => {
+    setPaymentOption(option);
   };
 
   return (
-    <CartContext.Provider value={{ 
-      cartItems, 
-      addToCart, 
-      removeFromCart, 
-      getItemCount, 
+    <CartContext.Provider value={{
+      cartItems,
+      addToCart,
+      removeFromCart,
+      getItemCount,
       getTotalCount,
-      clearCart 
+      clearCart,
+      startDate,
+      endDate,
+      paymentOption,
+      updateStartDate,
+      updateEndDate,
+      updatePaymentOption
     }}>
       {children}
     </CartContext.Provider>
